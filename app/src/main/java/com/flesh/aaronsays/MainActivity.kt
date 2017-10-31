@@ -5,14 +5,17 @@ import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import kotlin.collections.ArrayList
+import android.content.DialogInterface
 
-class MainActivity : AppCompatActivity(), ButtonView, View.OnClickListener {
+
+class MainActivity : AppCompatActivity(), ButtonView, View.OnClickListener, GAME {
 
 
     private val TAG = "[${MainActivity::class.java.simpleName}]"
@@ -28,22 +31,89 @@ class MainActivity : AppCompatActivity(), ButtonView, View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setHighScoreText()
+        initListeners()
         startGame()
+    }
+
+    private fun setHighScoreText() {
+        tvHighScore.text = getString(R.string.high_score, HighScoreUtils(this).getHighScore())
+    }
+
+    private fun initListeners() {
         btn_red.setOnClickListener(this)
         btn_blue.setOnClickListener(this)
         btn_yellow.setOnClickListener(this)
         btn_green.setOnClickListener(this)
     }
 
-    private fun startGame() {
+    override fun startGame() {
+        disableUserInteraction()
         val h = Handler()
         Thread({
             Thread.sleep(2.SECOND)
             h.post({
                 chooseRandomButton()
+                enableUserInteraction()
             })
         }).start()
     }
+
+    override fun disableUserInteraction() {
+        btn_red.isClickable = false
+        btn_blue.isClickable = false
+        btn_yellow.isClickable = false
+        btn_green.isClickable = false
+    }
+
+    override fun enableUserInteraction() {
+        btn_red.isClickable = true
+        btn_blue.isClickable = true
+        btn_yellow.isClickable = true
+        btn_green.isClickable = true
+    }
+
+
+    override fun correctMove() {
+        userCount++
+        if (userCount == gameCount) {
+            disableUserInteraction()
+            Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show()
+            val h = Handler()
+            Thread({
+                h.postDelayed({
+                    continueGame()
+                }, 2.SECOND)
+            }).start()
+        }
+    }
+
+    override fun incorrectMove() {
+        endGame()
+    }
+
+
+    override fun endGame() {
+        Toast.makeText(this, "You Lose", Toast.LENGTH_SHORT).show()
+        if (gameCount > HighScoreUtils(context = this).getHighScore()) {
+            HighScoreUtils(context = this).setHighScore(gameCount)
+            setHighScoreText()
+        }
+        val builder: AlertDialog.Builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert)
+        } else {
+            AlertDialog.Builder(this)
+        }
+        builder.setTitle("Game Over!").setMessage(getString(R.string.your_score, gameCount) + "\nWanna Play again?")
+                .setPositiveButton("YA!") { _, _ ->
+                    startGame()
+                }
+                .setNegativeButton("Nah!") { _, _ ->
+                    finish()
+                }.show()
+        gameCount = 0
+    }
+
 
     override fun onPause() {
         hasPaused = true
@@ -67,28 +137,28 @@ class MainActivity : AppCompatActivity(), ButtonView, View.OnClickListener {
         //Highlight Button
         setButtonBackGroundColor(GameButton.ButtonEnum.RED)
         //Play tone
-        playTone(GameButton.ButtonEnum.RED,isCorrect)
+        playTone(GameButton.ButtonEnum.RED, isCorrect)
     }
 
     override fun highlightGreenButton(isCorrect: Boolean) {
         //Highlight Button
         setButtonBackGroundColor(GameButton.ButtonEnum.GREEN)
         //Play tone
-        playTone(GameButton.ButtonEnum.GREEN,isCorrect)
+        playTone(GameButton.ButtonEnum.GREEN, isCorrect)
     }
 
     override fun highlightBlueButton(isCorrect: Boolean) {
         //Highlight Button
         setButtonBackGroundColor(GameButton.ButtonEnum.BLUE)
         //Play tone
-        playTone(GameButton.ButtonEnum.BLUE,isCorrect)
+        playTone(GameButton.ButtonEnum.BLUE, isCorrect)
     }
 
     override fun highlightYellowButton(isCorrect: Boolean) {
         //Highlight Button
         setButtonBackGroundColor(GameButton.ButtonEnum.YELLOW)
         //Play tone
-        playTone(GameButton.ButtonEnum.YELLOW,isCorrect)
+        playTone(GameButton.ButtonEnum.YELLOW, isCorrect)
     }
 
 
@@ -124,19 +194,9 @@ class MainActivity : AppCompatActivity(), ButtonView, View.OnClickListener {
         stopAllTones()
         deselectAllButtons()
         if (checkIfCorrectButton(v)) {
-            userCount++
-            if (userCount == gameCount) {
-                Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show()
-                val h = Handler()
-                Thread({
-                    h.postDelayed({
-                        continueGame()
-                    }, 2.SECOND)
-                }).start()
-            }
+            correctMove()
         } else {
-            userCount = 0
-            Toast.makeText(this, "You Lose", Toast.LENGTH_SHORT).show()
+            incorrectMove()
         }
     }
 
@@ -160,6 +220,7 @@ class MainActivity : AppCompatActivity(), ButtonView, View.OnClickListener {
             Thread.sleep(1.SECOND)
             h.post({
                 chooseRandomButton()
+                enableUserInteraction()
             })
         }).start()
     }
@@ -207,7 +268,7 @@ class MainActivity : AppCompatActivity(), ButtonView, View.OnClickListener {
 
 
     private fun playTone(color: GameButton.ButtonEnum, isCorrect: Boolean = true) {
-        var tu = SoundUtils()
+        val tu = SoundUtils()
         if (isCorrect) {
             when (color) {
                 GameButton.ButtonEnum.GREEN -> tu.playTone(SoundUtils.Tones.E)
