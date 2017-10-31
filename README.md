@@ -23,3 +23,8 @@ There are times the sound stops working and then continues to not work until app
 - [ ] Add Scoring.
 - [ ] Add High Scroing.
 - [ ] Fix Issues.
+
+#####Current 3rd Party Libs
+```gradle 
+    implementation 'com.github.mcginty:material-colors:1.1.0'
+```
