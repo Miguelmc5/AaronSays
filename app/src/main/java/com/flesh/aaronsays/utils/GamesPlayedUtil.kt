@@ -14,10 +14,17 @@ class GamesPlayedUtil(context: Context) {
     val prefs = GamePreferences(context)
     val threshold = 5
 
+    /**
+     * Player is a first time player
+     * @return true if user is within threshold (5)
+     */
     fun isFirstTimer():Boolean{
         return prefs.get(KEY,0L)<=threshold
     }
 
+    /**
+     * Adds a game to tolal games played and first time games played.
+     */
     fun anotherGamePlayed(){
         var gamesPlayed = prefs.get(KEY,0L)
         var firstTimerGames = prefs.get(FIRST_TIMER_KEY,0L)
@@ -28,6 +35,9 @@ class GamesPlayedUtil(context: Context) {
     }
 
 
+    /**
+     * Resets the first timer games played for when player has been away a while or because I say so.
+     */
     fun resetFirstTimerGames(){
         prefs.remove(FIRST_TIMER_KEY)
     }

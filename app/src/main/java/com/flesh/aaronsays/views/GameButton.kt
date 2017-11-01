@@ -32,7 +32,9 @@ class GameButton : Button{
     }
 
 
-    //Enum Extensions
+    /**
+     *Enum For the different button types
+     */
     enum class ButtonEnum{
         GREEN,RED,BLUE,YELLOW
     }

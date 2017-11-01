@@ -29,6 +29,9 @@ class SoundUtils {
 
     private var mp : MediaPlayer? = null
 
+    /**
+     * Set class of static values for the different Tone frequencies
+     */
     class Tones {
         companion object {
             val A = 440f
@@ -38,6 +41,9 @@ class SoundUtils {
         }
     }
 
+    /**
+     * @param tone the frequency of the tone to play.
+     */
     fun playTone(tone : Float){
         val thread = Thread(Runnable {
             generateTone(tone)
@@ -65,6 +71,10 @@ class SoundUtils {
             }
     }
 
+    /**
+     * Uses media player to play error sound.
+     * @param context needs context to access media player
+     */
     fun playError(context:Context){
         val mp = MediaPlayer.create(context, R.raw.wrong_ans)
         mp.start()
@@ -85,6 +95,9 @@ class SoundUtils {
         }
     }
 
+    /**
+     * Stops a sound from playing.
+     */
     fun stopSound(){
         //stop tone.
         try {

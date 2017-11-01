@@ -6,12 +6,39 @@ package com.flesh.aaronsays.interfaces
  */
 interface GAME {
 
+    /**
+     * String the Simon Says game
+     */
     fun startGame()
+
+    /**
+     *  Disable all user interactions with game
+     */
     fun disableUserInteraction()
+
+    /**
+     * Enable all user interaction with game
+     */
     fun enableUserInteraction()
+
+    /**
+     * Users move was correct
+     */
     fun correctMove()
+
+    /**
+     * User move was incorrect
+     */
     fun incorrectMove()
+
+    /**
+     * End the current game being played
+     */
     fun endGame()
+
+    /**
+     * Restart the a new game by resting all vars and starting game again.ß
+     */
     fun restartGame()
 
 }

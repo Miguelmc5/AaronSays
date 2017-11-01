@@ -13,6 +13,8 @@ import com.flesh.aaronsays.interfaces.ButtonView
 import com.flesh.aaronsays.interfaces.GAME
 import com.flesh.aaronsays.utils.*
 import com.flesh.aaronsays.views.GameButton
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -34,6 +36,8 @@ class GameActivity : AppCompatActivity(), ButtonView, View.OnClickListener, GAME
     private val onTime = 1.SECOND
     private val offTime = .2.SECOND
 
+    private lateinit var mInterstitialAd :InterstitialAd
+    private val adRequest = AdRequest.Builder().build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,10 +46,30 @@ class GameActivity : AppCompatActivity(), ButtonView, View.OnClickListener, GAME
         deselectAllButtons()
         initListeners()
         disableUserInteraction()
+        loadAds()
+    }
+
+    private fun showFullScreenAd() {
+        val h = Handler()
+        Thread({
+            .75.SECOND.sleep
+            h.post({
+                if (mInterstitialAd.isLoaded && (Random().nextInt() % 2 == 1) && !GamesPlayedUtil(this).isFirstTimer())
+                    mInterstitialAd.show()
+            })
+        }).start()
+    }
+
+    private fun loadAds(){
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
+        //load full screen ad
+        mInterstitialAd = InterstitialAd(this)
+        mInterstitialAd.adUnitId = getString(R.string.ad_id_in_code)
     }
 
     private fun setHighScoreText() {
-        tvHighScore.text = getString(R.string.high_score, HighScoreUtils(this).getHighScore())
+        tvHighScore.text = getString(R.string.high_score, ScoreUtils(this).getHighScore())
     }
 
     private fun initListeners() {
@@ -70,6 +94,8 @@ class GameActivity : AppCompatActivity(), ButtonView, View.OnClickListener, GAME
 
 
     override fun startGame() {
+        //Load new full screen ad
+        mInterstitialAd.loadAd(adRequest)
         disableUserInteraction()
         val h = Handler()
         Thread({
@@ -118,9 +144,10 @@ class GameActivity : AppCompatActivity(), ButtonView, View.OnClickListener, GAME
 
 
     override fun endGame() {
+        showFullScreenAd()
         Toast.makeText(this, getString(R.string.you_lose), Toast.LENGTH_SHORT).show()
-        if (gameCount > HighScoreUtils(context = this).getHighScore()) {
-            HighScoreUtils(context = this).setHighScore(gameCount)
+        if (gameCount > ScoreUtils(context = this).getHighScore()) {
+            ScoreUtils(context = this).setHighScore(gameCount)
             setHighScoreText()
         }
 
@@ -129,6 +156,7 @@ class GameActivity : AppCompatActivity(), ButtonView, View.OnClickListener, GAME
         } else {
             AlertDialog.Builder(this)
         }
+
         builder.setTitle(getString(R.string.game_over))
                 .setMessage(getString(R.string.your_score, gameCount)
                         +                     "\n" + getString(R.string.wanna_play_again))
@@ -139,6 +167,8 @@ class GameActivity : AppCompatActivity(), ButtonView, View.OnClickListener, GAME
                     finish()
                 }.show()
         gameCount = 0
+        //add to counter of games played
+        GamesPlayedUtil(this).anotherGamePlayed()
     }
 
 
