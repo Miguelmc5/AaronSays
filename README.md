@@ -20,12 +20,12 @@ Because I was bored and thought it would be fun.
 - [x] Add Restart game if game ends (via Dialog).
 - [x] Add Start button. 
 - [x] Add new theme
+- [x] Add Ad Support (Because I want to learn how it works) + show ad logic
 
 #### TODOs
 - [ ] Add custom themes
 - [ ] Add custom sounds
 - [ ] Add Animations!
-- [ ] Add Ad Support (Because I want to learn how it works)
 - [ ] Add pay support (Because I want to learn how it works)
 - [ ] Add New game modes (Maybe something with multiple button at once or simon swipe)
 - [ ] Fix Sound and Highlight Issues.
