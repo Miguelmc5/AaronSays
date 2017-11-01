@@ -253,8 +253,6 @@ class GameActivity : AppCompatActivity(), ButtonView, View.OnClickListener, GAME
         }).start()
     }
 
-
-
     //Color Extensions
     private val GameButton.ButtonEnum.getView: GameButton
         get() = when (this) {
