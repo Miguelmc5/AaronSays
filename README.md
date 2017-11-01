@@ -1,3 +1,5 @@
+[![codebeat badge](https://codebeat.co/badges/05cadbce-cabe-434f-9107-319932900f0a)](https://codebeat.co/projects/github-com-adfleshner-aaronsays-master)
+
 # AaronSays
 A simon says kotlin implementation because I was bored.
 
