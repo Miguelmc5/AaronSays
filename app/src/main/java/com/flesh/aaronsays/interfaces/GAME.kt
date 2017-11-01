@@ -1,7 +1,7 @@
-package com.flesh.aaronsays
+package com.flesh.aaronsays.interfaces
 
 /**
- * Game interface
+ * Game interface this is all of the parts of the game.
  * Created by aaronfleshner on 10/30/17.
  */
 interface GAME {
@@ -12,5 +12,6 @@ interface GAME {
     fun correctMove()
     fun incorrectMove()
     fun endGame()
+    fun restartGame()
 
 }

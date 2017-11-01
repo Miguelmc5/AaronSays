@@ -15,6 +15,9 @@ import org.junit.Assert.*
  */
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
+    /**
+     * Most Generic Test there is.
+     */
     @Test
     fun useAppContext() {
         // Context of the app under test.

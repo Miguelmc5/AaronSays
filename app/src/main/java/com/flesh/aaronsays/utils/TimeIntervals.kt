@@ -1,11 +1,12 @@
-package com.flesh.aaronsays
+package com.flesh.aaronsays.utils
 
 /**
+ * Different time intervals for easy time manipulation.
  * Created by aaronfleshner on 10/23/17.
  */
 val Number.SECOND: Long
     get() {
-        return (this.toDouble()*1000).toLong()
+        return (this.toFloat()*1000).toLong()
     }
 val Number.MINUTE: Long
     get() {

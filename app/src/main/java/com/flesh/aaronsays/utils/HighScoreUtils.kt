@@ -1,4 +1,4 @@
-package com.flesh.aaronsays
+package com.flesh.aaronsays.utils
 
 import android.content.Context
 import android.preference.PreferenceManager

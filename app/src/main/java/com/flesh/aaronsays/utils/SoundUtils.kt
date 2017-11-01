@@ -1,4 +1,4 @@
-package com.flesh.aaronsays
+package com.flesh.aaronsays.utils
 
 import android.content.Context
 import android.media.AudioFormat
@@ -7,14 +7,16 @@ import kotlin.experimental.and
 import android.media.AudioTrack
 import android.media.AudioManager
 import android.media.MediaPlayer
+import com.flesh.aaronsays.R
 
 
 /**
+ * Where the music happens, no literally this is where I make the sounds for the app.
  * Created by aaronfleshner on 10/23/17.
  */
 class SoundUtils {
 
-    private val duration = .75 // seconds
+    private val duration = .5 // seconds
     private val sampleRate = 8000
     private var numSamples = Math.floor(duration * sampleRate).toInt()
     private val sample = DoubleArray(numSamples)
@@ -64,7 +66,7 @@ class SoundUtils {
     }
 
     fun playError(context:Context){
-        val mp = MediaPlayer.create(context,R.raw.wrong_ans)
+        val mp = MediaPlayer.create(context, R.raw.wrong_ans)
         mp.start()
         mp.setOnCompletionListener {
             mp.stop()

@@ -1,5 +1,9 @@
 package com.flesh.aaronsays
 
+import com.flesh.aaronsays.utils.DAY
+import com.flesh.aaronsays.utils.HOUR
+import com.flesh.aaronsays.utils.MINUTE
+import com.flesh.aaronsays.utils.SECOND
 import org.junit.Test
 
 import org.junit.Assert.*

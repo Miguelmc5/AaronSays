@@ -18,10 +18,17 @@ Because I was bored and though it would be fun.
 - [x] Add Scoring.
 - [x] Add High Scoring.
 - [x] Add Restart game if game ends (via Dialog).
+- [x] Add Start button. 
+- [x] Add new theme
 
 #### TODOs
-- [ ] Add Start button. 
-- [ ] Fix sound and highlight Issues.
+- [ ] Add custom themes
+- [ ] Add custom sounds
+- [ ] Add Animations!
+- [ ] Add Ad Support (Because I want to learn how it works)
+- [ ] Add pay support (Because I want to learn how it works)
+- [ ] Add New game modes (Maybe something with multiple button at once or simon swipe)
+- [ ] Fix Sound and Highlight Issues.
 
 ##### 3rd Party Libraries
 ```gradle 

@@ -2,4 +2,12 @@
     <string name="app_name">Aaron Says</string>
     <string name="high_score">High Score: %1$d</string>
     <string name="your_score">Your Score: %1$d</string>
+    <string name="ya">Ya!</string>
+    <string name="nah">Nah!</string>
+    <string name="you_lose">You Lose</string>
+    <string name="game_over">Game Over!</string>
+    <string name="wanna_play_again">Wanna Play again?</string>
+    <string name="correct">Correct!</string>
+    <string name="high_score_0">High Score: 0</string>
+    <string name="start">START</string>
 </resources>
